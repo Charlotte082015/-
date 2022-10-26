@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        //開始一直射擊的 Coroutine 函式
+        StartCoroutine(Keepshooting());
     }
 
     void Update()
@@ -50,16 +53,48 @@ public class Player : MonoBehaviour
         // 移動角色位置
         controller.Move(dir * speed * Time.deltaTime);
 
-        // 射擊
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Fire();
-        }
     }
 
     void Fire()
     {
         // 產生出子彈
         Instantiate(bulletPrefab, firePoint.transform.position, transform.rotation);
+    }
+
+
+    //一直射擊的 Coroutine 函式
+    IEnumerator Keepshooting()
+    {
+        while (true)
+        {
+            //找到最近一個目標
+            //取得所有場上 tag 為 Enemy 的物件
+
+
+            /*GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+
+            float miniDist = 99999;
+            GameObject miniEnemys = null;
+
+            foreach (GameObject enemy in enemys)
+            {
+                //計算距離
+                float d = Vector3.Distance(transform.position, enemy.transform.position);
+
+                //跟上一個最近的比較，有比較小的就紀錄
+                if (d < miniDist)
+                {
+                    miniDist = d;
+                    miniEnemys = enemy;
+                }
+
+            }*/
+
+            // 射擊
+            Fire();
+
+            //暫停0.5秒
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 }
