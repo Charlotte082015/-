@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private float hp = 100;
+
     void Start()
     {
         
@@ -20,8 +21,13 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Bullet")
         {
-            gameObject.SetActive(false);
-            Destroy(gameObject);            
+            hp -= 25;
+
+            if (hp <= 0)
+            {
+                gameObject.SetActive(false);
+                Destroy(gameObject);
+            }            
         }
     }
 }
